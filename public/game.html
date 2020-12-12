@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles/style.css">
+    <script type="text/javascript" src="scripts/stats.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.min.js" integrity="sha512-Jq1JnVXlkYQOYQpz31qIV/0l67d97J9I6sbILtfiSYX00Isr2zK7XDRmHW8d2iBTwNZfL7sHkHGT0EzLs90jdw==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="scripts/networking.js"></script>
+    <title>Typeracer++</title>
+</head>
+<body>
+<div class="header">
+    <div class="title">typeracer<span>++</span></div>
+    <div class="room-code">room code: <span>abcde</span></div>
+    <div class="username">username: <span>abcde</span></div>
+    <div class="opponent">opponent: <span>waiting...</span></div>
+</div>
+
+<div class="test">
+    <div class="timer">
+        <div id="min">WAI</div><div id="sec">TING</div>
+    </div>
+    <div id="text"></div>
+    <div id="caps-lock">WARNING: CAPS LOCK</div>
+    <div id="stats">
+        <div class="label" id="results">waiting</div>
+        <div class="stat">
+            <span id="cpm"></span>
+            <div class="lbl">cpm</div>
+        </div>
+        <div class="stat">
+            <span id="wpm"></span>
+            <div class="lbl">wpm</div>
+        </div>
+        <div class="stat">
+            <span id="acc"></span>
+            <div class="lbl">acc</div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="scripts/cookie.js"></script>
+<script type="text/javascript" src="scripts/game.js"></script>
+</body>
+</html>
