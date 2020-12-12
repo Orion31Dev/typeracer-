@@ -1,6 +1,6 @@
 {
-  "name": "Typeracer++",
+  "name": "typeracer-plus-plus",
   "description": "Race your friends in an epic typing duel",
-  "repository": "https://github.com/Orion31Dev/Typeracerpp",
+  "repository": "https://github.com/Orion31Dev/Typeracer-plus-plus",
   "keywords": ["node", "express", "typing"]
 }
