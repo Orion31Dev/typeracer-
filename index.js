@@ -30,7 +30,7 @@ app.get('/:roomCode', (req, res) => {
   res.sendFile('./public/game.html', {root: __dirname});
 });
 
-http.listen(3000);
+http.listen(process.env.PORT);
 
 io.on('connection', (socket) => {
   socket.userId = genId(5);
