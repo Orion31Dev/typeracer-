@@ -67,7 +67,6 @@ document.addEventListener('keydown', (e) => {
       btn.classList.remove('active');
     }
   } else {
-    setCookie('username', username, 1);
     // Check to make sure the key is alphanumeric
     if (key.match(/^[a-zA-Z]+$/) && key.length === 1 && uIndex < 4) {
       let ul = u(uIndex);
@@ -81,6 +80,7 @@ document.addEventListener('keydown', (e) => {
       if (uIndex !== 3) u(uIndex + 1).classList.add('c-cursor');
 
       uIndex++;
+      setCookie('username', username, 1);
     } else if (key === 'Backspace' && uIndex > 0) {
       let ul = u(uIndex - 1);
 

@@ -1,5 +1,5 @@
 let index = 0, words, wrong = 0, last;
-let running, starting;
+let running;
 let sec = 0, min = 0;
 let timer;
 
@@ -14,6 +14,7 @@ const statDiv = document.getElementById('stats');
 const wpm = document.getElementById('wpm');
 const cpm = document.getElementById('cpm');
 const acc = document.getElementById('acc');
+const timeStat = document.getElementById('time');
 
 const caps = document.getElementById('caps-lock');
 
@@ -46,15 +47,21 @@ function initTest() {
 
   st.classList = "";
   mt.classList = "";
-
-  statDiv.style.opacity = '0';
-
-  stats = new Stats();
 }
 
 function preStart(s) {
+  running = false;
+
+  st.classList.remove('txt-end');
+  mt.classList.remove('txt-end');
+
   sec = parseInt(s);
-  starting = true;
+
+  // Fade out the stats 3s before the game starts
+  setTimeout(() => {
+    statDiv.style.opacity = '0';
+    stats = new Stats();
+  }, sec * 1000 - 3000);
 
   timer = setInterval(() => {
     sec--;
@@ -64,6 +71,7 @@ function preStart(s) {
       return;
     }
 
+
     mt.innerHTML = 'T-';
     st.innerHTML = ((sec < 10) ? '0' : '') + sec.toString();
 
@@ -72,6 +80,12 @@ function preStart(s) {
 
 function start() {
   running = true;
+
+  index = 0;
+  wrong = 0;
+  oppTime = -1;
+  oppPos = 0;
+
   st.classList.add('txt-active');
 
   mt.innerHTML = '0:';
@@ -108,6 +122,7 @@ function end() {
   wpm.innerHTML = stats.wpm(time).toString();
   cpm.innerHTML = stats.cpm(time).toString();
   acc.innerHTML = stats.acc() + '%';
+  timeStat.innerHTML = min + ':' + ((sec < 10) ? '0' : '') + sec.toString();
 
   socket.emit('result', time);
 
@@ -127,8 +142,6 @@ function letterCallback(newOpp) {
   l(newOpp).classList.add('opp-pos');
 
   oppPos = newOpp;
-
-  console.log(newOpp);
 }
 
 function textCallback(txt) {
@@ -206,7 +219,7 @@ document.addEventListener('keydown', (e) => {
       // Append the mistake to the last correct letter, so that the wrong letter is inserted
       // into the word where the user made the mistake
       if (index > 0) l(index - 1).appendChild(w);
-        // If the user made a mistake on the first letter, there is no previous letter to
+      // If the user made a mistake on the first letter, there is no previous letter to
       // append the wrong letter to, so inserted it before the first letter.
       else {
         let n = l(index);

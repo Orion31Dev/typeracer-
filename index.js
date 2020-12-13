@@ -7,7 +7,7 @@ const io = require('socket.io')(http);
 const dict = JSON.parse(fs.readFileSync('./public/scripts/dict-eng.json')).words;
 
 
-const length = 35;
+const length = 5;
 let rooms = [];
 
 app.use(express.static("./public"));
@@ -30,10 +30,11 @@ app.get('/:roomCode', (req, res) => {
   res.sendFile('./public/game.html', {root: __dirname});
 });
 
-http.listen(process.env.PORT);
+http.listen(3000);
 
 io.on('connection', (socket) => {
   socket.userId = genId(5);
+  socket.finishedTyping = false;
 
   console.log(socket.userId + ' connected');
 
@@ -81,10 +82,28 @@ io.on('connection', (socket) => {
   });
 
   socket.on('result', (txt) => {
-    console.log(`sending result of ${socket.username} [${txt}] to room ${socket.roomCode}`);
+    console.log(`sending result of ${socket.userId} [${txt}] to room ${socket.roomCode}`);
+    socket.finishedTyping = true;
+
+    let finish = 0;
+
     rooms[socket.roomCode].sockets.forEach(s => {
       if (s.userId !== socket.userId) s.emit('result', txt);
+      if (s.finishedTyping) finish++;
     });
+
+    console.log(finish);
+
+    if (finish === rooms[socket.roomCode].sockets.length) {
+      console.log(`restarting room ${socket.roomCode}`);
+
+      rooms[socket.roomCode].text = genText(length);
+      rooms[socket.roomCode].sockets.forEach(s => {
+        s.emit('text', rooms[socket.roomCode].text);
+        s.emit('start', '10');
+        s.finishedTyping = false;
+      });
+    }
   });
 
 
