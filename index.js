@@ -7,7 +7,7 @@ const io = require('socket.io')(http);
 const dict = JSON.parse(fs.readFileSync('./public/scripts/dict-eng.json')).words;
 
 
-const length = 5;
+const length = 35;
 let rooms = [];
 
 app.use(express.static("./public"));
@@ -30,7 +30,7 @@ app.get('/:roomCode', (req, res) => {
   res.sendFile('./public/game.html', {root: __dirname});
 });
 
-http.listen(3000);
+http.listen(process.env.PORT);
 
 io.on('connection', (socket) => {
   socket.userId = genId(5);
