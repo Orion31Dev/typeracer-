@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 
 app.get('/:roomCode', (req, res) => {
   if (typeof rooms[req.params.roomCode] !== "undefined") {
-    if (rooms[req.params.roomCode].sockets.length >= 2) {
+    if (rooms[req.params.roomCode].sockets.length >= 2 || rooms[req.params.roomCode].started) {
       res.sendFile('./public/full.html', {root: __dirname});
       return;
     }
@@ -30,7 +30,7 @@ app.get('/:roomCode', (req, res) => {
   res.sendFile('./public/game.html', {root: __dirname});
 });
 
-http.listen(process.env.PORT);
+http.listen(process.env.PORT || 3000);
 
 io.on('connection', (socket) => {
   socket.userId = genId(5);

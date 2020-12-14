@@ -56,6 +56,10 @@ function preStart(s) {
   mt.classList.remove('txt-end');
 
   sec = parseInt(s);
+  min = 0;
+
+  mt.innerHTML = 'T-';
+  st.innerHTML = ((sec < 10) ? '0' : '') + sec.toString();
 
   // Fade out the stats 3s before the game starts
   setTimeout(() => {

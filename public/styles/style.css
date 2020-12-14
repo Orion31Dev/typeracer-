@@ -85,7 +85,7 @@ body {
     font-weight: 300;
     text-align: center;
     margin: 100px 0 0;
-
+    transition: color .7s ease;
 }
 
 .txt-active {
